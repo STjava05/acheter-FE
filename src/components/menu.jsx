@@ -1,20 +1,21 @@
 
-
-import React, {  useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { setAcqui,setMerce,setOrdine,setCategoria } from "../reducers/apiSlice";
-
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setAcquirenti, setMerce, setOrdine, setCategoria } from "../reducers/apiSlice";
+import Acquirenti from "./acquirenti";
+import Merce from "./merce";
+import Ordine from "./ordine";
+import Categoria from "./categoria";
 
 
 export default function Menu() {
     const dispatch = useDispatch();
-    const {menu}= useSelector((state) => state.api.menu);
+    const {menu} = useSelector((state) => state.api.menu);
 
     useEffect(() => {
         switch (menu) {
             case "acquirenti":
-                dispatch(setAcqui());
+                dispatch(setAcquirenti());
                 break;
             case "merce":
                 dispatch(setMerce());
@@ -32,12 +33,10 @@ export default function Menu() {
 
     return (
         <div>
-            {menu === "acquirenti" && <acquirenti />}
-            {menu === "merce" && <merce />}
-            {menu === "ordine" && <ordine />}
-            {menu === "categoria" && <categoria />}
+            {menu === "acquirenti" && <Acquirenti />}
+            {menu === "merce" && <Merce />}
+            {menu === "ordine" && <Ordine />}
+            {menu === "categoria" && <Categoria />}
         </div>
     );
 }
-
-

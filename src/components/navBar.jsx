@@ -1,69 +1,134 @@
-import React from 'react';
-import { useDispatch} from 'react-redux';
-import { useRef } from 'react';
-import dropLink from '../components/dropLink';
-import { setMenu, setSearch } from '../reducers/apiSlice';
-import Logo from '../components/assets/logoCapton.jpg'
 
-import { Navbar, Container, Nav, NavDropdown, Form, Button } from 'react-bootstrap';
+
+import React,{useState} from 'react';
+import {Link} from 'react-router-dom';
+import './navBar.css';
+import Dropdown from './Dropdown';
 
 
 function NavBar() {
-    const dispatch = useDispatch();
-    const inputRef = useRef(null);
+    const [click, setClick] = useState(false);
+    const [dropdown, setDropdown] = useState(false);
+  
+    const handleClick = () => setClick(!click);
+    const closeMobileMenu = () => setClick(false);
+  
+    const onMouseEnter = () => {
+      if (window.innerWidth < 960) {
+        setDropdown(false);
+      } else {
+        setDropdown(true);
+      }
+    };
 
-    const handleSelect = (e) => {
-        dispatch(setMenu(e));
-    }
-
-    const handleSearch = (e) => {
-        dispatch(setSearch(inputRef.current.value));
-    }
-        
-
+    const onMouseLeave = () => {
+        if (window.innerWidth < 960) {
+            setDropdown(false);
+        } else {
+            setDropdown(false);
+        }
+    };
+  
+    
     return (
-        <Navbar expand="lg"  style={{backgroundColor:"#171b40"}} >
-            <Container fluid>
-                <Navbar.Brand href="#">
-                    <img
-                        src={Logo} alt='logo' height={100} width={100}
-                    />
-                </Navbar.Brand>
-                <Navbar.Toggle aria-controls="navbarScroll" />
-                <Navbar.Collapse id="navbarScroll">
-                    <Nav
-                        className="me-auto my-2 my-lg-0"
-                        style={{ maxHeight: '100px' }}
-                        navbarScroll
-                    >
-                        <Nav.Link className='text-light' href="#action1">Home</Nav.Link>
-                        <Nav.Link className='text-light' href="#action2">Browser</Nav.Link>
-                        <NavDropdown 
-                            onSelect={(eventKey) => handleSelect(eventKey)}
-                            title="Menu" id="navbarScrollingDropdown" 
-                        >
-                            {dropLink.map((item, index) => (
-        <NavDropdown.Item key={index} eventKey={item.link}>
-            {item.title}
-        </NavDropdown.Item>
-    ))}
-                        </NavDropdown>
-                    </Nav>
-                    <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className="me-2"
-                            aria-label="Search"
-                            ref={inputRef}
-                            onChange={handleSearch}
-                        />
-                        <Button variant="outline-success">Search</Button>
-                    </Form>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
-    );
-}
+      <>
+        <nav className='navbar'>
+          <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            Ou6no
+            <i className='fab fa-firstdraft' />
+          </Link>
+          <div className='menu-icon' onClick={handleClick}>
+            <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+          </div>
+          <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+            <li className='nav-item'>
+              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                Home
+              </Link>
+            </li>
+            <li
+              className='nav-item'
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+            >
+              <Link
+                to='/menu'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                Services <i className='fas fa-caret-down' />
+              </Link>
+              {dropdown && <Dropdown />}
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/acquirenti'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                Profilo
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/contact'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                Contact Us
+              </Link>
+            </li>
+              {/* <form className='navbar-search flex'>
+                  <input type="text" placeholder="Search.." name="search" />
+                  <button type="submit" className='navbar-search-btn'>
+                    <i className="fa fa-search"></i></button>
+              </form>
 
-export default NavBar;
+              <div className='navbar-btns'>
+                <Link to ='/Cart' className='add-to-cart-btn flex'>
+                <span className='cart-icon'>
+                    <i className='fas fa-shopping-cart'> </i>
+                </span>
+                <div className='btn-text fw-5'>cart<span className='cart-count-value'>0</span>
+
+                </div>
+
+                </Link>
+              </div> */}
+           
+          
+            <li>
+              <Link
+                to='/merce'
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+              >
+                Merce
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/ordine'
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+              >
+                Ordine
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/categoria'
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+              >
+                Categoria
+              </Link>
+            </li>
+          </ul>
+          {/* <Button /> */}
+        </nav>
+      </>
+    );
+  }
+  
+  export default NavBar;

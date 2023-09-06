@@ -5,23 +5,24 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchAcquirenti = createAsyncThunk(
     'api/fetchApi',
-    async (acquirenti) => {
-        const response = await fetch('http://localhost:5050/acquirenti', {
+    async () => {
+        const response = await fetch('http://localhost:5052/acquirenti', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(acquirenti),
+            
         });
         const data = await response.json();
         return data;
     }
 );
 
+
 export const createAcquirenti = createAsyncThunk(
     'api/createAcquirenti',
     async (acquirenti) => {
-        const response = await fetch('http://localhost:5050/acquirenti', {
+        const response = await fetch('http://localhost:5052/acquirenti', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,12 +37,12 @@ export const createAcquirenti = createAsyncThunk(
 export const updateAcquirenti = createAsyncThunk(
     'api/updateAcquirenti',
     async (acquirenti) => {
-        const response = await fetch(`http://localhost:5050/acquirenti/${acquirenti.id}`, {
+        const response = await fetch(`http://localhost:5052/acquirenti/${acquirenti.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(acquirenti),
+            body: JSON.stringify({payload:acquirenti}),
         });
         const data = await response.json();
         return data;
@@ -51,12 +52,12 @@ export const updateAcquirenti = createAsyncThunk(
 export const deleteAcquirenti = createAsyncThunk(
     'api/deleteAcquirenti',
     async (acquirenti) => {
-        const response = await fetch(`http://localhost:5050/acquirenti/${acquirenti.id}`, {
+        const response = await fetch(`http://localhost:5052/acquirenti/${acquirenti.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(acquirenti),
+            body: JSON.stringify({payload:acquirenti}),
         });
         const data = await response.json();
         return data;
@@ -66,7 +67,7 @@ export const deleteAcquirenti = createAsyncThunk(
 export const fetchMerce = createAsyncThunk(
     'api/fetchApi',
     async (merce) => {
-        const response = await fetch('http://localhost:5050/merce', {
+        const response = await fetch('http://localhost:5052/merce', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export const fetchMerce = createAsyncThunk(
 export const createMerce = createAsyncThunk(
     'api/createMerce',
     async (merce) => {
-        const response = await fetch('http://localhost:5050/merce', {
+        const response = await fetch('http://localhost:5052/merce', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +97,7 @@ export const createMerce = createAsyncThunk(
 export const updateMerce = createAsyncThunk(
     'api/updateMerce',
     async (merce) => {
-        const response = await fetch(`http://localhost:5050/merce/${merce.id}`, {
+        const response = await fetch(`http://localhost:5052/merce/${merce.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -111,7 +112,7 @@ export const updateMerce = createAsyncThunk(
 export const deleteMerce = createAsyncThunk(
     'api/deleteMerce',
     async (merce) => {
-        const response = await fetch(`http://localhost:5050/merce/${merce.id}`, {
+        const response = await fetch(`http://localhost:5052/merce/${merce.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ export const deleteMerce = createAsyncThunk(
 export const fetchOrdine = createAsyncThunk(
     'api/fetchApi',
     async (ordine) => {
-        const response = await fetch('http://localhost:5050/ordine', {
+        const response = await fetch('http://localhost:5052/ordine', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ export const fetchOrdine = createAsyncThunk(
 export const createOrdine = createAsyncThunk(
     'api/createOrdine',
     async (ordine) => {
-        const response = await fetch('http://localhost:5050/ordine', {
+        const response = await fetch('http://localhost:5052/ordine', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -156,7 +157,7 @@ export const createOrdine = createAsyncThunk(
 export const updateOrdine = createAsyncThunk(
     'api/updateOrdine',
     async (ordine) => {
-        const response = await fetch(`http://localhost:5050/ordine/${ordine.id}`, {
+        const response = await fetch(`http://localhost:5052/ordine/${ordine.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -171,7 +172,7 @@ export const updateOrdine = createAsyncThunk(
 export const deleteOrdine = createAsyncThunk(
     'api/deleteOrdine',
     async (ordine) => {
-        const response = await fetch(`http://localhost:5050/ordine/${ordine.id}`, {
+        const response = await fetch(`http://localhost:5052/ordine/${ordine.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -186,7 +187,7 @@ export const deleteOrdine = createAsyncThunk(
 export const fetchCategoria = createAsyncThunk(
     'api/fetchApi',
     async (categoria) => {
-        const response = await fetch('http://localhost:5050/categoria', {
+        const response = await fetch('http://localhost:5052/categoria', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -201,7 +202,7 @@ export const fetchCategoria = createAsyncThunk(
 export const createCategoria = createAsyncThunk(
     'api/createCategoria',
     async (categoria) => {
-        const response = await fetch('http://localhost:5050/categoria', {
+        const response = await fetch('http://localhost:5052/categoria', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -216,7 +217,7 @@ export const createCategoria = createAsyncThunk(
 export const updateCategoria = createAsyncThunk(
     'api/updateCategoria',
     async (categoria) => {
-        const response = await fetch(`http://localhost:5050/categoria/${categoria.id}`, {
+        const response = await fetch(`http://localhost:5052/categoria/${categoria.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -231,7 +232,7 @@ export const updateCategoria = createAsyncThunk(
 export const deleteCategoria = createAsyncThunk(
     'api/deleteCategoria',
     async (categoria) => {
-        const response = await fetch(`http://localhost:5050/categoria/${categoria.id}`, {
+        const response = await fetch(`http://localhost:5052/categoria/${categoria.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -264,7 +265,8 @@ const apiSlice = createSlice({
     initialState,
     reducers: {
 
-        setAcqui: (state, action) => {
+        setAcquirenti: (state, action) => {
+            
             state.acquirenti = action.payload;
         },
         setMerce: (state, action) => {
@@ -376,7 +378,7 @@ const apiSlice = createSlice({
 
 });
 
-export const { setAcqui, setMerce, setOrdine, setCategoria, setSearch,setMenu } = apiSlice.actions;
+export const { setAcquirenti, setMerce, setOrdine, setCategoria, setSearch,setMenu } = apiSlice.actions;
 
 export default apiSlice.reducer;
 
