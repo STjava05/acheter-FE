@@ -3,7 +3,7 @@ export const MenuItems = [
   
 
   {
-    title: 'acquirenti',
+    title: 'Acquirenti',
     path: '/acquirenti',
     cName: 'dropdown-link'
   },

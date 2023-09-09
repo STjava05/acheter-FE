@@ -3,7 +3,9 @@ import '../App.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMerce, createMerce, updateMerce, deleteMerce } from '../reducers/apiSlice';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { BsFillPencilFill,BsTrash3Fill,BsCart4,BsFillSendFill } from 'react-icons/bs';
+ import { addToCart } from '../reducers/apiSlice';
 
 const Merce = () => {
     const [formData, setFormData] = useState({
@@ -16,18 +18,20 @@ const Merce = () => {
         quantitaDisponibile: 0,
     });
 
-    const merceData = useSelector((state) => state.api.merce);
-    console.log(merceData);
+    const merceData = useSelector((state) => state.api.Data);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
+
         dispatch(fetchMerce());
-    }, [dispatch]);
+
+    }, [ dispatch]);
 
     const handleCreateMerce = (e) => {
         e.preventDefault();
         dispatch(createMerce(formData));
-     
+
         // Pulisci il form dopo la creazione
         setFormData({
             nome: '',
@@ -56,6 +60,32 @@ const Merce = () => {
                     <h4 className='merce'>Merce</h4>
                 </Col>
             </Row>
+
+            <Row className='mt-4 d-flex justify-content-center align-items-center'>
+                {merceData && merceData.map((merce) => (
+                    <Card className='border-dark shadow m-1 p-1' style={{ width: '18rem' }} key={merce.id}>
+                        <Card.Img variant="top" src={merce.url} style={{ height: '150px', objectFit: 'cover' }} />
+                        <Card.Body>
+                            <Card.Title>{merce.nome}</Card.Title>
+                            <Card.Text>{merce.descrizione}</Card.Text>
+                            <Card.Text>{merce.categoria}</Card.Text>
+                            <Card.Text>{merce.provenienza}</Card.Text>
+                            <Card.Text>Prezzo: {merce.prezzo}€</Card.Text>
+                            <Card.Text>Quantità Disponibile: {merce.quantitaDisponibile}</Card.Text>
+                            <Button variant='danger' type="button" onClick={() => handleUpdateMerce(merce.id)}>
+                            < BsFillPencilFill size={20} />
+                            </Button>
+                            <Button className='m-2' type="button" onClick={() => handleDeleteMerce(merce.id)}>
+                             < BsTrash3Fill  size={20} />
+                            </Button>
+                            <Button variant='secondary' className='m-2' type="button" onClick={() => dispatch(addToCart(merce))}>
+                             < BsCart4  size={20} />
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                ))}
+            </Row>
+
             <Row className='mt-4'>
                 <Col md={6}>
                     <form onSubmit={handleCreateMerce}>
@@ -73,36 +103,13 @@ const Merce = () => {
                         <input type="number" id="prezzo" value={formData.prezzo} onChange={(e) => setFormData({ ...formData, prezzo: e.target.value })} /><br />
                         <label htmlFor="quantitaDisponibile">Quantità disponibile</label>
                         <input type="number" id="quantitaDisponibile" value={formData.quantitaDisponibile} onChange={(e) => setFormData({ ...formData, quantitaDisponibile: e.target.value })} /><br /><br />
-                        <button type="submit" >
-                            Crea
-                        </button>
+                        <Button type="submit" >
+                        < BsFillSendFill size={20} />
+                        </Button>
                     </form>
                 </Col>
             </Row>
-            <Row className='mt-4'>
-                <Col>
 
-                    {merceData && merceData.map((merce) => (
-                       
-                        <div key={merce.id}>
-                            <h1>{merce.nome}</h1>
-                            <h1>{merce.descrizione}</h1>
-                            <h1>{merce.url}</h1>
-                            <h1>{merce.categoria}</h1>
-                            <h1>{merce.provenienza}</h1>
-                            <h1>{merce.prezzo}</h1>
-                            <h1>{merce.quantitaDisponibile}</h1>
-                            <button type="button" onClick={() => handleUpdateMerce(merce.id)}>
-                                Modifica
-                            </button>
-                            <button type="button" onClick={() => handleDeleteMerce(merce.id)}>
-                                Elimina
-                            </button>
-                        </div>
-                    ))}
-
-                </Col>
-            </Row>
 
         </Container>
     );

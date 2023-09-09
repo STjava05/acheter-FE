@@ -3,6 +3,23 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 
 
+
+const initialState = {
+    Data: [],
+    token: localStorage.getItem('token') || null,
+    apiArray: [],
+    menu: "acquirenti",
+    acquirenti: [],
+    merce: [],
+    ordine: [],
+    categoria: [],
+    cart: [], 
+    search: '',  
+    loading: false,
+    error: false,
+
+}
+
 export const fetchAcquirenti = createAsyncThunk(
     'api/fetchApi',
     async () => {
@@ -11,7 +28,7 @@ export const fetchAcquirenti = createAsyncThunk(
             headers: {
                 'Content-Type': 'application/json',
             },
-            
+
         });
         const data = await response.json();
         return data;
@@ -22,7 +39,7 @@ export const fetchAcquirenti = createAsyncThunk(
 export const createAcquirenti = createAsyncThunk(
     'api/createAcquirenti',
     async (acquirenti) => {
-        const response = await fetch('http://localhost:5052/acquirenti', {
+        const response = await fetch('http://localhost:5052/acquirenti/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,12 +54,12 @@ export const createAcquirenti = createAsyncThunk(
 export const updateAcquirenti = createAsyncThunk(
     'api/updateAcquirenti',
     async (acquirenti) => {
-        const response = await fetch(`http://localhost:5052/acquirenti/${acquirenti.id}`, {
+        const response = await fetch('http://localhost:5052/acquirenti/edit/:id', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({payload:acquirenti}),
+            body: JSON.stringify({ payload: acquirenti }),
         });
         const data = await response.json();
         return data;
@@ -52,12 +69,12 @@ export const updateAcquirenti = createAsyncThunk(
 export const deleteAcquirenti = createAsyncThunk(
     'api/deleteAcquirenti',
     async (acquirenti) => {
-        const response = await fetch(`http://localhost:5052/acquirenti/${acquirenti.id}`, {
+        const response = await fetch('http://localhost:5052/acquirenti/deleteOne/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({payload:acquirenti}),
+            body: JSON.stringify({ payload: acquirenti }),
         });
         const data = await response.json();
         return data;
@@ -82,7 +99,7 @@ export const fetchMerce = createAsyncThunk(
 export const createMerce = createAsyncThunk(
     'api/createMerce',
     async (merce) => {
-        const response = await fetch('http://localhost:5052/merce', {
+        const response = await fetch('http://localhost:5052/merce/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -97,7 +114,7 @@ export const createMerce = createAsyncThunk(
 export const updateMerce = createAsyncThunk(
     'api/updateMerce',
     async (merce) => {
-        const response = await fetch(`http://localhost:5052/merce/${merce.id}`, {
+        const response = await fetch('http://localhost:5052/merce/edit/:id', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -112,7 +129,7 @@ export const updateMerce = createAsyncThunk(
 export const deleteMerce = createAsyncThunk(
     'api/deleteMerce',
     async (merce) => {
-        const response = await fetch(`http://localhost:5052/merce/${merce.id}`, {
+        const response = await fetch('http://localhost:5052/deleteOne/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -142,7 +159,7 @@ export const fetchOrdine = createAsyncThunk(
 export const createOrdine = createAsyncThunk(
     'api/createOrdine',
     async (ordine) => {
-        const response = await fetch('http://localhost:5052/ordine', {
+        const response = await fetch('http://localhost:5052/ordine/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -157,7 +174,7 @@ export const createOrdine = createAsyncThunk(
 export const updateOrdine = createAsyncThunk(
     'api/updateOrdine',
     async (ordine) => {
-        const response = await fetch(`http://localhost:5052/ordine/${ordine.id}`, {
+        const response = await fetch('http://localhost:5052/ordine/edit/:id', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -172,7 +189,7 @@ export const updateOrdine = createAsyncThunk(
 export const deleteOrdine = createAsyncThunk(
     'api/deleteOrdine',
     async (ordine) => {
-        const response = await fetch(`http://localhost:5052/ordine/${ordine.id}`, {
+        const response = await fetch('http://localhost:5052/ordine/deleteOne/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -202,7 +219,7 @@ export const fetchCategoria = createAsyncThunk(
 export const createCategoria = createAsyncThunk(
     'api/createCategoria',
     async (categoria) => {
-        const response = await fetch('http://localhost:5052/categoria', {
+        const response = await fetch('http://localhost:5052/categoria/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -217,7 +234,7 @@ export const createCategoria = createAsyncThunk(
 export const updateCategoria = createAsyncThunk(
     'api/updateCategoria',
     async (categoria) => {
-        const response = await fetch(`http://localhost:5052/categoria/${categoria.id}`, {
+        const response = await fetch('http://localhost:5052/categoria/edit/:id', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -232,7 +249,7 @@ export const updateCategoria = createAsyncThunk(
 export const deleteCategoria = createAsyncThunk(
     'api/deleteCategoria',
     async (categoria) => {
-        const response = await fetch(`http://localhost:5052/categoria/${categoria.id}`, {
+        const response = await fetch('http://localhost:5052/categoria/deleteOne/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -245,19 +262,25 @@ export const deleteCategoria = createAsyncThunk(
 );
 
 
+export const PostLogin = createAsyncThunk(
+    'api/PostLogin',
+    async (login) => {
+        const response = await fetch('http://localhost:5052/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${login.token}`
+            },
+            body: JSON.stringify(login),
+        });
+        const data = await response.json();
+        return data;
+    }
+);
 
-const initialState = {
-    Data: [],
-    apiArray: [],
-    menu: "acquirenti",
-    acquirenti: [],
-    merce: [],
-    ordine: [],
-    categoria: [],
-    loading: false,
-    error: false,
 
-}
+
+
 
 const apiSlice = createSlice({
 
@@ -266,7 +289,7 @@ const apiSlice = createSlice({
     reducers: {
 
         setAcquirenti: (state, action) => {
-            
+
             state.acquirenti = action.payload;
         },
         setMerce: (state, action) => {
@@ -281,104 +304,116 @@ const apiSlice = createSlice({
         setMenu: (state, action) => {
             state.menu = action.payload;
         },
+        addToCart: (state, action) => {
+            state.cart.push(action.payload);
+        },
+        removeToCart: (state, action) => {
+            const indexToRemove = state.cart.findIndex(item => item.id === action.payload);
+            if (indexToRemove !== -1) {
+                state.cart.splice(indexToRemove, 1); // Rimuovi l'articolo dall'array
+            }
+        },
+        
 
         setSearch: (state, action) => {
-            const search = action.payload;
+            state.search = action.payload;
             state.apiArray = state.Data.filter((item) => {
-                return item.codiceAcquirenti.toLowerCase().includes(search.toLowerCase()) ||
-                    item.codiceProdotto.toLowerCase().includes(search.toLowerCase()) ||
-                    item.codiceOrdine.toLowerCase().includes(search.toLowerCase()) ||
-                    item.codiceCategoria.toLowerCase().includes(search.toLowerCase())
-            });
+                return item.nome.toLowerCase().includes(action.payload.toLowerCase())
+            })
+
+
         },
     },
 
     extraReducers: (builder) => {
-        builder.addMatcher(
-            (action) => action.type.endsWith('/fetchAcquirenti/pending') ||
-                action.type.endsWith('/createAcquirenti/pending') ||
-                action.type.endsWith('/updateAcquirenti/pending') ||
-                action.type.endsWith('/deleteAcquirenti/pending') ||
-
-                action.type.endsWith('/fetchMerce/pending') ||
-                action.type.endsWith('/createMerce/pending') ||
-                action.type.endsWith('/updateMerce/pending') ||
-                action.type.endsWith('/deleteMerce/pending') ||
-
-                action.type.endsWith('/fetchOrdine/pending') ||
-                action.type.endsWith('/createOrdine/pending') ||
-                action.type.endsWith('/updateOrdine/pending') ||
-                action.type.endsWith('/deleteOrdine/pending') ||
-
-                action.type.endsWith('/fetchCategoria/pending') ||
-                action.type.endsWith('/createCategoria/pending') ||
-                action.type.endsWith('/updateCategoria/pending') ||
-                action.type.endsWith('/deleteCategoria/pending'),
-
-            (state) => {
-                state.loading = true;
-                state.error = false;
-            }
+        // fetchMerce
+        builder.addCase(fetchMerce.pending, (state) => {
+            state.loading = true;
+        }
         );
-        builder.addMatcher(
-            (action) => action.type.endsWith('/fetchAcquirenti/fulfilled') ||
-                action.type.endsWith('/createAcquirenti/fulfilled') ||
-                action.type.endsWith('/updateAcquirenti/fulfilled') ||
-                action.type.endsWith('/deleteAcquirenti/fulfilled') ||
-
-                action.type.endsWith('/fetchMerce/fulfilled') ||
-                action.type.endsWith('/createMerce/fulfilled') ||
-                action.type.endsWith('/updateMerce/fulfilled') ||
-                action.type.endsWith('/deleteMerce/fulfilled') ||
-
-                action.type.endsWith('/fetchOrdine/fulfilled') ||
-                action.type.endsWith('/createOrdine/fulfilled') ||
-                action.type.endsWith('/updateOrdine/fulfilled') ||
-                action.type.endsWith('/deleteOrdine/fulfilled') ||
-
-                action.type.endsWith('/fetchCategoria/fulfilled') ||
-                action.type.endsWith('/createCategoria/fulfilled') ||
-                action.type.endsWith('/updateCategoria/fulfilled') ||
-                action.type.endsWith('/deleteCategoria/fulfilled'),
-            (state, action) => {
-                state.loading = false;
-                state.error = false;
-                state.Data = action.payload;
-            }
+        builder.addCase(fetchMerce.fulfilled, (state, action) => {
+            state.loading = false;
+            state.Data = action.payload;
+            state.apiArray = action.payload;
+        }
         );
-        builder.addMatcher(
-            (action) => action.type.endsWith('/fetchAcquirenti/rejected') ||
-                action.type.endsWith('/createAcquirenti/rejected') ||
-                action.type.endsWith('/updateAcquirenti/rejected') ||
-                action.type.endsWith('/deleteAcquirenti/rejected') ||
-
-                action.type.endsWith('/fetchMerce/rejected') ||
-                action.type.endsWith('/createMerce/rejected') ||
-                action.type.endsWith('/updateMerce/rejected') ||
-                action.type.endsWith('/deleteMerce/rejected') ||
-
-                action.type.endsWith('/fetchOrdine/rejected') ||
-                action.type.endsWith('/createOrdine/rejected') ||
-                action.type.endsWith('/updateOrdine/rejected') ||
-                action.type.endsWith('/deleteOrdine/rejected') ||
-
-                action.type.endsWith('/fetchCategoria/rejected') ||
-                action.type.endsWith('/createCategoria/rejected') ||
-                action.type.endsWith('/updateCategoria/rejected') ||
-                action.type.endsWith('/deleteCategoria/rejected'),
-
-            (state) => {
-                state.loading = false;
-                state.error = true;
-            }
+        builder.addCase(fetchMerce.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
+        }
         );
+        // createMerce
+        builder.addCase(createMerce.pending, (state) => {
+            state.loading = true;
+        }
+        );
+        builder.addCase(createMerce.fulfilled, (state, action) => {
+            state.loading = false;
+            state.Data = action.payload;
+            state.apiArray = action.payload;
+        }
+        );
+        builder.addCase(createMerce.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
+        }
+        );
+        // updateMerce
+        builder.addCase(updateMerce.pending, (state) => {
+            state.loading = true;
+        }
+        );
+        builder.addCase(updateMerce.fulfilled, (state, action) => {
+            state.loading = false;
+            state.Data = action.payload;
+            state.apiArray = action.payload;
+        }
+        );
+        builder.addCase(updateMerce.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
+        }
+        );
+        // deleteMerce
+        builder.addCase(deleteMerce.pending, (state) => {
+            state.loading = true;
+        }
+        );
+        builder.addCase(deleteMerce.fulfilled, (state, action) => {
+            state.loading = false;
+            state.Data = action.payload;
+            state.apiArray = action.payload;
+        }
+        );
+        builder.addCase(deleteMerce.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
+        }
+        );
+        // postLogin
+        builder.addCase(PostLogin.pending, (state) => {
+            state.loading = true;
+        }
+        );
+        builder.addCase(PostLogin.fulfilled, (state, action) => {
+            if (action.payload.token) {
+                state.token = action.payload.token;
+                localStorage.setItem('token', action.payload.token);
+            }
+            state.loading = false;
 
+        }
+        );
+        builder.addCase(PostLogin.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
+        }
+        );
 
     }
-
 });
 
-export const { setAcquirenti, setMerce, setOrdine, setCategoria, setSearch,setMenu } = apiSlice.actions;
+export const { setAcquirenti, setMerce, setOrdine, setCategoria, setSearch, setMenu,addToCart,removeToCart } = apiSlice.actions;
 
 export default apiSlice.reducer;
 
