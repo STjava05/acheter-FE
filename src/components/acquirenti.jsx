@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import '../App.css';
+import { Link } from 'react-router-dom';
 
 import { fetchAcquirenti, createAcquirenti, updateAcquirenti, deleteAcquirenti } from '../reducers/apiSlice'; // Assicurati che il percorso sia corretto
+
 
 
 
@@ -15,7 +17,10 @@ const Acquirenti = () => {
 
     useEffect(() => {
         dispatch(fetchAcquirenti());
-    }, [dispatch]);
+
+       }, [dispatch]);
+
+
 
     return (
         <Container>
@@ -37,6 +42,10 @@ const Acquirenti = () => {
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="text" placeholder="Inserisci Email" onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                 </Form.Group>
+                <Form.Group controlId="formPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="text" placeholder="Inserisci password" onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+                </Form.Group>
                 <Form.Group controlId="formIndirizzo">
                     <Form.Label>Indirizzo</Form.Label>
                     <Form.Control type="text" placeholder="Inserisci indirizzo" onChange={(e) => setFormData({ ...formData, indirizzo: e.target.value })} />
@@ -52,19 +61,32 @@ const Acquirenti = () => {
                 <Button variant="primary" type="submit" onClick={(e) => {
                     e.preventDefault();
                     dispatch(createAcquirenti(formData));
+
+                    // setFormData({
+                    //     denominazione: '',
+                    //     partitaIva: '',
+                    //     codiceFiscale: '',
+                    //     email: '',
+                    //     password: '',
+                    //     indirizzo: '',
+                    //     cap: '',
+                    //     citta: '',
+                    // });
                 }
                 }>
                     invia
 
                 </Button>
+                <p>Have an account already? <Link to="/login">Login</Link></p>
 
                 {acquirentiList.map((acquirenti) => (
                 <div key={acquirenti.id}>
                     <h1>{acquirenti.denominazione}</h1>
+                    <h1>{acquirenti.email}</h1>
+                    <h1>{acquirenti.password}</h1>
                     <h1>{acquirenti.partitaIva}</h1>
                     <h1>{acquirenti.indirizzo}</h1>
                     <h1>{acquirenti.codiceFiscale}</h1>
-                    <h1>{acquirenti.email}</h1>
                     <h1>{acquirenti.cap}</h1>
                     <h1>{acquirenti.citta}</h1>
 
@@ -82,6 +104,7 @@ const Acquirenti = () => {
                     }>
                         Elimina
                     </Button>
+                   
                 </div>
 
             )

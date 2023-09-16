@@ -1,11 +1,11 @@
 
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAcquirenti, setMerce, setOrdine, setCategoria } from "../reducers/apiSlice";
+import { setAcquirenti, setMerce, setOrdine, setProducteur } from "../reducers/apiSlice";
 import Acquirenti from "./acquirenti";
 import Merce from "./merce";
 import Ordine from "./ordine";
-import Categoria from "./categoria";
+import Producteur from "./producteur";
 
 
 export default function Menu() {
@@ -24,7 +24,7 @@ export default function Menu() {
                 dispatch(setOrdine());
                 break;
             case "categoria":
-                dispatch(setCategoria());
+                dispatch(setProducteur());
                 break;
             default:
                 break;
@@ -36,7 +36,7 @@ export default function Menu() {
             {menu === "acquirenti" && <Acquirenti />}
             {menu === "merce" && <Merce />}
             {menu === "ordine" && <Ordine />}
-            {menu === "categoria" && <Categoria />}
+            {menu === "categoria" && <Producteur />}
         </div>
     );
 }

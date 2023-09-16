@@ -68,7 +68,7 @@
 }
 
 .merce {
-  background-image: url('./components/assets/mare.jpg');
+  background-image: url('./components/assets/panier2.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -92,6 +92,17 @@
   background-repeat: no-repeat;
   color: #fff;
   font-size: 100px;
+}
+
+.select:hover {
+  background-color: #9fa5a4;
+  color: #fff;
+  transition: 0.5s;
+  transform:  scale(1.1);
+}
+.benvenuto{
+  color: yellow;
+  
 }
 
  

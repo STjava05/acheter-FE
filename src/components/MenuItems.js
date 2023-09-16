@@ -2,11 +2,11 @@ export const MenuItems = [
  
   
 
-  {
-    title: 'Acquirenti',
-    path: '/acquirenti',
-    cName: 'dropdown-link'
-  },
+  // {
+  //   title: 'Acquirenti',
+  //   path: '/acquirenti',
+  //   cName: 'dropdown-link'
+  // },
   {
     title: 'Merce',
     path: '/merce',
@@ -18,8 +18,8 @@ export const MenuItems = [
     cName: 'dropdown-link'
   },
   {
-    title: 'Categoria',
-    path: '/categoria',
+    title: 'Producteur',
+    path: '/producteur',
     cName: 'dropdown-link'
   }
 ];

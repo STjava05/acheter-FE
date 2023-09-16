@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 
 
-
 const initialState = {
     Data: [],
     token: localStorage.getItem('token') || null,
@@ -11,8 +10,9 @@ const initialState = {
     menu: "acquirenti",
     acquirenti: [],
     merce: [],
+    totalPages: 0,
     ordine: [],
-    categoria: [],
+    producteur: [],
     cart: [], 
     search: '',  
     loading: false,
@@ -96,20 +96,50 @@ export const fetchMerce = createAsyncThunk(
     }
 );
 
-export const createMerce = createAsyncThunk(
-    'api/createMerce',
-    async (merce) => {
-        const response = await fetch('http://localhost:5052/merce/create', {
-            method: 'POST',
+export const fetchMercePage = createAsyncThunk(
+    'api/fetchApi',
+    async (page) => {
+        try {
+        const response = await fetch(`http://localhost:5052/merce?page=${page}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(merce),
+            // body: JSON.stringify(page),
         });
+        console.log("sono nel try");
         const data = await response.json();
         return data;
+    } catch (error) {
+        console.error(error);
+    }
     }
 );
+
+export const createMerce = createAsyncThunk(
+    'api/createMerce',
+    async (merce) => {
+        try {
+            const response = await fetch('http://localhost:5052/merce/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(merce),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Errore nella richiesta API');
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 
 export const updateMerce = createAsyncThunk(
     'api/updateMerce',
@@ -129,7 +159,7 @@ export const updateMerce = createAsyncThunk(
 export const deleteMerce = createAsyncThunk(
     'api/deleteMerce',
     async (merce) => {
-        const response = await fetch('http://localhost:5052/deleteOne/:id', {
+        const response = await fetch('http://localhost:5052/merce/deleteOne/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -201,75 +231,94 @@ export const deleteOrdine = createAsyncThunk(
     }
 );
 
-export const fetchCategoria = createAsyncThunk(
-    'api/fetchApi',
-    async (categoria) => {
-        const response = await fetch('http://localhost:5052/categoria', {
+export const fetchProducteur = createAsyncThunk(
+    'api/fetchProducteur',
+    async (producteur) => {
+        const response = await fetch('http://localhost:5052/producteur', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(categoria),
+            body: JSON.stringify(producteur),
         });
         const data = await response.json();
         return data;
     }
 );
 
-export const createCategoria = createAsyncThunk(
-    'api/createCategoria',
-    async (categoria) => {
-        const response = await fetch('http://localhost:5052/categoria/create', {
+export const fetchProducteurPage = createAsyncThunk(
+    'api/fetchProducteur',
+    async (page) => {
+        const response = await fetch(`http://localhost:5052/producteur?page=${page}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // body: JSON.stringify(page),
+        });
+        const data = await response.json();
+        return data;
+    }
+);
+    
+
+export const createProducteur = createAsyncThunk(
+    'api/createProducteur',
+    async (producteur) => {
+        const response = await fetch('http://localhost:5052/producteur/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(categoria),
+            body: JSON.stringify(producteur),
         });
         const data = await response.json();
         return data;
     }
 );
 
-export const updateCategoria = createAsyncThunk(
-    'api/updateCategoria',
-    async (categoria) => {
-        const response = await fetch('http://localhost:5052/categoria/edit/:id', {
+export const updateProducteur = createAsyncThunk(
+    'api/updateProducteur',
+    async (producteur) => {
+        const response = await fetch('http://localhost:5052/producteur/edit/:id', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(categoria),
+            body: JSON.stringify(producteur),
         });
         const data = await response.json();
         return data;
     }
 );
+   
 
-export const deleteCategoria = createAsyncThunk(
-    'api/deleteCategoria',
-    async (categoria) => {
-        const response = await fetch('http://localhost:5052/categoria/deleteOne/:id', {
+export const deleteProducteur = createAsyncThunk(
+    'api/deleteProducteur',
+    async (producteur) => {
+        const response = await fetch('http://localhost:5052/producteur/deleteOne/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(categoria),
+            body: JSON.stringify(producteur),
         });
         const data = await response.json();
         return data;
     }
 );
+  
 
 
 export const PostLogin = createAsyncThunk(
+    
     'api/PostLogin',
     async (login) => {
         const response = await fetch('http://localhost:5052/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${login.token}`
+                Authorization:  localStorage.getItem('token'),
             },
             body: JSON.stringify(login),
         });
@@ -298,8 +347,8 @@ const apiSlice = createSlice({
         setOrdine: (state, action) => {
             state.ordine = action.payload;
         },
-        setCategoria: (state, action) => {
-            state.categoria = action.payload;
+        setProducteur: (state, action) => {
+            state.producteur = action.payload;
         },
         setMenu: (state, action) => {
             state.menu = action.payload;
@@ -313,6 +362,8 @@ const apiSlice = createSlice({
                 state.cart.splice(indexToRemove, 1); // Rimuovi l'articolo dall'array
             }
         },
+        
+
         
 
         setSearch: (state, action) => {
@@ -329,17 +380,21 @@ const apiSlice = createSlice({
         // fetchMerce
         builder.addCase(fetchMerce.pending, (state) => {
             state.loading = true;
+            state.requestStatus = 'pending';
         }
         );
         builder.addCase(fetchMerce.fulfilled, (state, action) => {
             state.loading = false;
-            state.Data = action.payload;
-            state.apiArray = action.payload;
+            state.Data = action.payload.merce;
+          
+            state.apiArray = action.payload.merce;
+            state.requestStatus = 'fulfilled';
         }
         );
         builder.addCase(fetchMerce.rejected, (state) => {
             state.loading = false;
             state.error = true;
+            state.requestStatus = 'rejected';
         }
         );
         // createMerce
@@ -348,9 +403,11 @@ const apiSlice = createSlice({
         }
         );
         builder.addCase(createMerce.fulfilled, (state, action) => {
-            state.loading = false;
+            console.log(action.payload);
             state.Data = action.payload;
             state.apiArray = action.payload;
+            state.loading = false;
+            
         }
         );
         builder.addCase(createMerce.rejected, (state) => {
@@ -361,12 +418,14 @@ const apiSlice = createSlice({
         // updateMerce
         builder.addCase(updateMerce.pending, (state) => {
             state.loading = true;
+            
         }
         );
         builder.addCase(updateMerce.fulfilled, (state, action) => {
             state.loading = false;
             state.Data = action.payload;
             state.apiArray = action.payload;
+            
         }
         );
         builder.addCase(updateMerce.rejected, (state) => {
@@ -377,6 +436,7 @@ const apiSlice = createSlice({
         // deleteMerce
         builder.addCase(deleteMerce.pending, (state) => {
             state.loading = true;
+            
         }
         );
         builder.addCase(deleteMerce.fulfilled, (state, action) => {
@@ -410,10 +470,33 @@ const apiSlice = createSlice({
         }
         );
 
+        // fetchProducteur
+        builder.addCase(fetchProducteur.pending, (state) => {
+            state.loading = true;
+            state.requestStatus = 'pending';
+        }
+        );
+        builder.addCase(fetchProducteur.fulfilled, (state, action) => {
+            state.loading = false;
+            state.Data = action.payload.producteur;
+            state.apiArray = action.payload.producteur;
+            state.requestStatus = 'fulfilled';
+        }
+        );
+        builder.addCase(fetchProducteur.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
+            state.requestStatus = 'rejected';
+        }
+        );
+       
+
+
+
     }
 });
 
-export const { setAcquirenti, setMerce, setOrdine, setCategoria, setSearch, setMenu,addToCart,removeToCart } = apiSlice.actions;
+export const { setAcquirenti, setMerce, setOrdine, setProducteur, setSearch, setMenu,addToCart,removeToCart, } = apiSlice.actions;
 
 export default apiSlice.reducer;
 
