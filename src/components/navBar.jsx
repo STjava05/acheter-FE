@@ -83,7 +83,7 @@ function NavBar() {
          
           <li className='nav-item'>
             <Link to='/login' className='nav-links' onClick={closeMobileMenu}>
-              Login
+              {/* Login */}
             </Link>
           </li>
           <Search />
