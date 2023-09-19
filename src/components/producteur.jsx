@@ -3,7 +3,7 @@ import { Container, Row, Form, Button, Card, Col } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProducteur, updateProducteur, deleteProducteur, fetchProducteurPage } from '../reducers/apiSlice';
 import { BsTrash3Fill,BsFillPencilFill } from 'react-icons/bs';
-import Search from '../components/Search';
+// import Search from '../components/Search';
 
 const Producteur = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -67,7 +67,7 @@ const Producteur = () => {
 
             </Row>
             <Row className='mt-4 d-flex justify-content-center'>
-                 <Search/>
+                 
                 {producteurData && producteurData.map((producteur) => (
 
                     <Card key={producteur.id} className='mb-3 border-dark shadow m-1 p-1' style={{ width: '18rem' }}>
