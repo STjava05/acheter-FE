@@ -24,9 +24,16 @@ function Login() {
     }
     dispatch(PostLogin(loginPayload))
     .then((response) => {
-     
+
+      if (response && response.payload && response.payload.token) {
         localStorage.setItem('userLogin', JSON.stringify(response.payload.token));
         navigate('/home');
+      } else {
+        console.error('La risposta non contiene un token valido.');
+      }
+     
+        // localStorage.setItem('userLogin', JSON.stringify(response.payload.token));
+        // navigate('/home');
      
     })
     .catch((error) => {
