@@ -5,10 +5,13 @@ import Login from '../components/login';
 
 
 
-const auth = () => {
-    return JSON.parse(localStorage.getItem('userLogin'));
-}
 
+const auth = () => {
+    const userLogin = localStorage.getItem('userLogin');
+    return userLogin ? JSON.parse(userLogin) : null;
+    
+
+}
 export const useSession = () => {
     const session=auth();
     const decodedSession = session ? jwtDecode(session) : null;
@@ -26,6 +29,7 @@ export const useSession = () => {
 
 const ProtectedRoutes = () => {
     const isAuthorized = auth();
+    const session = useSession();
    
 return isAuthorized ? <Outlet /> : <Login />;
 }

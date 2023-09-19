@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Row, Card } from 'react-bootstrap';
 import { removeToCart } from '../reducers/apiSlice';
@@ -6,14 +6,23 @@ import { BsTrash3Fill } from 'react-icons/bs';
 
 
 
+
 function ShoppingCart() {
     const dispatch = useDispatch();
+    const [cartTotal, setCartTotal] = useState(0);
     const cartItem = useSelector((state) => state.api.cart);
 
+    useEffect(() => {
+        const total=cartItem.reduce((acc,curr)=>acc+curr.prezzo,0)
+        setCartTotal(total)
+    }, [cartItem])
 
 
 
-    return (
+
+
+
+ return (
         <Row className='mt-4 d-flex justify-content-center align-items-center'>
             {cartItem.map((merce) => (
                 <Card className='border-dark shadow m-1 p-1' style={{ width: '18rem' }} key={merce.id}>
@@ -32,8 +41,11 @@ function ShoppingCart() {
 
                     </Card.Body>
                 </Card>
+                
             ))}
+             <div className="cart-total">Totale: €{cartTotal}</div>
         </Row>
+        
     )
 }
 export default ShoppingCart

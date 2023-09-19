@@ -23,13 +23,10 @@
   }
   
   .nav-menu {
-    /* display: grid;
-    grid-template-columns: repeat(5, auto);
-    grid-gap: 10px; */
-    display: flex;
-    align-items: center;
-
-    list-style: none;
+     display: grid;
+    grid-template-columns: repeat(7, auto);
+    grid-gap: 10px; 
+   list-style: none;
     text-align: center;
     width: 70vw;
     justify-content: end;

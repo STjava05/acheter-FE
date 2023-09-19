@@ -7,6 +7,8 @@ import { Form, Button, Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { PostLogin } from '../reducers/apiSlice';
 import { Link,useNavigate } from 'react-router-dom';
+import { AiFillGithub } from 'react-icons/ai';
+import { FcGoogle } from 'react-icons/fc';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -22,12 +24,10 @@ function Login() {
     }
     dispatch(PostLogin(loginPayload))
     .then((response) => {
-      // if (response.payload.token) {
+     
         localStorage.setItem('userLogin', JSON.stringify(response.payload.token));
         navigate('/home');
-      // } else {
-      //   alert(response.payload.message);
-      // }
+     
     })
     .catch((error) => {
       console.log(error);
@@ -37,7 +37,14 @@ function Login() {
     setPassword('');
 }
 
-
+const handleGithubLogin = (e) => {
+  e.preventDefault();
+  window.location.href = `${process.env.REACT_APP_SERVER_BASE_URL}/auth/github`;
+}
+const handleGoogleLogin = (e) => {
+  e.preventDefault();
+  window.location.href = `${process.env.REACT_APP_SERVER_BASE_URL}/auth/google`;
+}
 
 
   return (
@@ -67,8 +74,18 @@ function Login() {
         <Button variant="primary" type="submit">
           Login
         </Button>
+        
         <p>Don't have an account? <Link to="/acquirenti">Signup</Link></p>
       </Form>
+      <Button onClick={handleGithubLogin} className='p-2 m-4 bg-secondary rounded text-white' type="submit">
+      <AiFillGithub size={20} />
+      Login with Github
+        </Button>
+
+        <Button onClick={handleGoogleLogin} className='p-2 m-4 bg-secondary rounded text-white' type="submit">
+      <FcGoogle size={20} />
+      Login with Google
+        </Button>
     </Container>
   );
 }

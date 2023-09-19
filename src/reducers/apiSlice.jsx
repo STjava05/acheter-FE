@@ -23,7 +23,7 @@ const initialState = {
 export const fetchAcquirenti = createAsyncThunk(
     'api/fetchApi',
     async () => {
-        const response = await fetch('http://localhost:5052/acquirenti', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/acquirenti`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export const fetchAcquirenti = createAsyncThunk(
 export const createAcquirenti = createAsyncThunk(
     'api/createAcquirenti',
     async (acquirenti) => {
-        const response = await fetch('http://localhost:5052/acquirenti/create', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/acquirenti/create`, { // `http://localhost:5052/acquirenti/create
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,8 +54,7 @@ export const createAcquirenti = createAsyncThunk(
 export const updateAcquirenti = createAsyncThunk(
     'api/updateAcquirenti',
     async (acquirenti) => {
-        const response = await fetch('http://localhost:5052/acquirenti/edit/:id', {
-            method: 'PUT',
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/acquirenti/edit/${acquirenti.id}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -69,7 +68,7 @@ export const updateAcquirenti = createAsyncThunk(
 export const deleteAcquirenti = createAsyncThunk(
     'api/deleteAcquirenti',
     async (acquirenti) => {
-        const response = await fetch('http://localhost:5052/acquirenti/deleteOne/:id', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/acquirenti/deleteOne/${acquirenti.id}`, { // `http://localhost:5052/acquirenti/deleteOne/${acquirenti.id
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +83,7 @@ export const deleteAcquirenti = createAsyncThunk(
 export const fetchMerce = createAsyncThunk(
     'api/fetchApi',
     async (merce) => {
-        const response = await fetch('http://localhost:5052/merce', {
+        const response = await fetch( `${process.env.REACT_APP_SERVER_BASE_URL}/merce`, { // `http://localhost:5052/merce
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,7 +99,7 @@ export const fetchMercePage = createAsyncThunk(
     'api/fetchApi',
     async (page) => {
         try {
-        const response = await fetch(`http://localhost:5052/merce?page=${page}`, {
+        const response = await fetch( `${process.env.REACT_APP_SERVER_BASE_URL}/merce?page=${page }`, { 
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +119,7 @@ export const createMerce = createAsyncThunk(
     'api/createMerce',
     async (merce) => {
         try {
-            const response = await fetch('http://localhost:5052/merce/create', {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/create`, { // `http://localhost:5052/merce/create
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,7 +143,7 @@ export const createMerce = createAsyncThunk(
 export const updateMerce = createAsyncThunk(
     'api/updateMerce',
     async (merce) => {
-        const response = await fetch('http://localhost:5052/merce/edit/:id', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/edit/${merce.id}`, { // `http://localhost:5052/merce/edit/${merce.id
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -158,23 +157,26 @@ export const updateMerce = createAsyncThunk(
 
 export const deleteMerce = createAsyncThunk(
     'api/deleteMerce',
-    async (merce) => {
-        const response = await fetch('http://localhost:5052/merce/deleteOne/:id', {
+    async (id) => {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/deleteOne/${id}`, { // `http://localhost:5052/merce/deleteOne/${id
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(merce),
+           
         });
         const data = await response.json();
         return data;
-    }
+
+        }
 );
+
+
+
+    
+
 
 export const fetchOrdine = createAsyncThunk(
     'api/fetchApi',
     async (ordine) => {
-        const response = await fetch('http://localhost:5052/ordine', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/ordine`, { // `http://localhost:5052/ordine
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -189,7 +191,7 @@ export const fetchOrdine = createAsyncThunk(
 export const createOrdine = createAsyncThunk(
     'api/createOrdine',
     async (ordine) => {
-        const response = await fetch('http://localhost:5052/ordine/create', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/ordine/create`, { // `http://localhost:5052/ordine/create
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -204,7 +206,7 @@ export const createOrdine = createAsyncThunk(
 export const updateOrdine = createAsyncThunk(
     'api/updateOrdine',
     async (ordine) => {
-        const response = await fetch('http://localhost:5052/ordine/edit/:id', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/ordine/edit/${ordine.id}`, { // `http://localhost:5052/ordine/edit/${ordine.id
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -219,7 +221,7 @@ export const updateOrdine = createAsyncThunk(
 export const deleteOrdine = createAsyncThunk(
     'api/deleteOrdine',
     async (ordine) => {
-        const response = await fetch('http://localhost:5052/ordine/deleteOne/:id', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/ordine/deleteOne/${ordine.id}`, { // `http://localhost:5052/ordine/deleteOne/${ordine.id
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -234,7 +236,7 @@ export const deleteOrdine = createAsyncThunk(
 export const fetchProducteur = createAsyncThunk(
     'api/fetchProducteur',
     async (producteur) => {
-        const response = await fetch('http://localhost:5052/producteur', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/producteur`, { // `http://localhost:5052/producteur
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -249,7 +251,7 @@ export const fetchProducteur = createAsyncThunk(
 export const fetchProducteurPage = createAsyncThunk(
     'api/fetchProducteur',
     async (page) => {
-        const response = await fetch(`http://localhost:5052/producteur?page=${page}`, {
+        const response = await fetch( `${process.env.REACT_APP_SERVER_BASE_URL}/producteur?page=${page } `, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -265,7 +267,7 @@ export const fetchProducteurPage = createAsyncThunk(
 export const createProducteur = createAsyncThunk(
     'api/createProducteur',
     async (producteur) => {
-        const response = await fetch('http://localhost:5052/producteur/create', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/producteur/create`, { // `http://localhost:5052/producteur/create
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -280,7 +282,7 @@ export const createProducteur = createAsyncThunk(
 export const updateProducteur = createAsyncThunk(
     'api/updateProducteur',
     async (producteur) => {
-        const response = await fetch('http://localhost:5052/producteur/edit/:id', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/producteur/edit/${producteur.id}`, { // `http://localhost:5052/producteur/edit/${producteur.id
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -296,7 +298,7 @@ export const updateProducteur = createAsyncThunk(
 export const deleteProducteur = createAsyncThunk(
     'api/deleteProducteur',
     async (producteur) => {
-        const response = await fetch('http://localhost:5052/producteur/deleteOne/:id', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/producteur/deleteOne/${producteur.id}`, { // `http://localhost:5052/producteur/deleteOne/${producteur.id
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -314,7 +316,7 @@ export const PostLogin = createAsyncThunk(
     
     'api/PostLogin',
     async (login) => {
-        const response = await fetch('http://localhost:5052/login', {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/login`, { // `http://localhost:5052/login
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -404,8 +406,8 @@ const apiSlice = createSlice({
         );
         builder.addCase(createMerce.fulfilled, (state, action) => {
             console.log(action.payload);
-            state.Data = action.payload;
-            state.apiArray = action.payload;
+            state.Data = action.payload.merce;
+            state.apiArray = action.payload.merce;
             state.loading = false;
             
         }
@@ -423,8 +425,8 @@ const apiSlice = createSlice({
         );
         builder.addCase(updateMerce.fulfilled, (state, action) => {
             state.loading = false;
-            state.Data = action.payload;
-            state.apiArray = action.payload;
+            state.Data = action.payload.merce;
+            state.apiArray = action.payload.merce;
             
         }
         );
@@ -441,8 +443,9 @@ const apiSlice = createSlice({
         );
         builder.addCase(deleteMerce.fulfilled, (state, action) => {
             state.loading = false;
-            state.Data = action.payload;
-            state.apiArray = action.payload;
+            state.Data = action.payload.merce;
+            state.apiArray = state.apiArray.filter((item) => item.id !== action.payload.id);
+        
         }
         );
         builder.addCase(deleteMerce.rejected, (state) => {

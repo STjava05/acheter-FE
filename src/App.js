@@ -1,7 +1,6 @@
 
 import React from 'react';
 import './App.css';
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Merce from './components/merce';
@@ -13,44 +12,42 @@ import Contact from './components/Contact';
 import Login from './components/login';
 import ShoppingCart from './components/ShoppingCart';
 import Producteur from './components/producteur';
-import EditMerce from './components/EditMerce';
+
 import ProtectedRoutes from './middleware/ProtectedRoutes';
 // import Layout from './components/layout';
 import NavBar from './components/navBar';
 import Footer from './components/footer';
+import Success from './components/Success';
+
 
 function App() {
-  
-
 
   return (
     <Router>
      <NavBar />
-        
       <Container>
         <Routes>
-
           <Route path="/" exact element={<Login />} />
+          <Route path="/success" element={<Success />} />
 
           <Route element={<ProtectedRoutes />}>
-          {/* <Route path="/layout" element={<Layout />} /> */}
-            <Route path="/home"  element={<Home />} />
-            
-           
+          {/* <Route element={<Layout />}> */}
+            <Route path="/home" element={<Home />} />
             <Route path='/menu' element={<Menu />} />
             <Route path='/merce' element={<Merce />} />
-            <Route path='/:id/editMerce' element={<EditMerce />} />
+           
             <Route path='/ordine' element={<Ordine />} />
             <Route path='/producteur' element={<Producteur />} />
             <Route path='/acquirenti' element={<Acquirenti />} />
             <Route path='/shoppingCart' element={<ShoppingCart />} />
             <Route path='contact' element={<Contact />} />
-            
           </Route>
+          {/* </Route> */}
         </Routes>
+
       </Container>
       
-      <Footer />
+       <Footer />
     </Router>
 
   );

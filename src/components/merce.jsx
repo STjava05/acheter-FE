@@ -7,12 +7,12 @@ import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { BsFillPencilFill, BsTrash3Fill, BsCart4, BsFillSendFill } from 'react-icons/bs';
 
 
+
 const Merce = () => {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
     const [formData, setFormData] = useState({
         nome: '',
-        descrizione: '',
         url: '',
         categoria: '',
         provenienza: '',
@@ -22,6 +22,7 @@ const Merce = () => {
 
     const merceData = useSelector((state) => state.api.apiArray);
     const totalPages = useSelector((state) => state.api.totalPages);
+
 
 
     useEffect(() => {
@@ -59,11 +60,26 @@ const Merce = () => {
         console.log(formData);
     };
 
-    const handleUpdateMerce = (id) => {
-        dispatch(updateMerce(id, formData));
+    const handleUpdateMerce = (merce) => {
+        setFormData({
+            
+            nome: merce.nome,
+            descrizione: merce.descrizione,
+            url: merce.url,
+            categoria: merce.categoria,
+            provenienza: merce.provenienza,
+            prezzo: merce.prezzo,
+            quantitaDisponibile: merce.quantitaDisponibile,
+        });
+
+        dispatch(updateMerce(merce.id, formData));
+
     };
 
     const handleDeleteMerce = (id) => {
+        if(id){
+            console.log(id);
+        }
         dispatch(deleteMerce(id));
     };
 
@@ -87,14 +103,14 @@ const Merce = () => {
                             <Card.Text>{merce.provenienza}</Card.Text>
                             <Card.Text>Prezzo: {merce.prezzo}€</Card.Text>
                             <Card.Text>Quantità Disponibile: {merce.quantitaDisponibile}</Card.Text>
-                            <Button variant='danger' type="button" onClick={() => handleUpdateMerce(merce.id)}>
-                                < BsFillPencilFill size={20} />
+                            <Button variant='' className='updmerce' type="button" onClick={() => handleUpdateMerce(merce)}>
+                                < BsFillPencilFill size={15} />
                             </Button>
-                            <Button className='m-2' type="button" onClick={() => handleDeleteMerce(merce.id)}>
-                                < BsTrash3Fill size={20} />
+                            <Button variant='' className='m-1 dltmerce' type="button" onClick={() => handleDeleteMerce(merce.id)}>
+                                < BsTrash3Fill size={15} />
                             </Button>
-                            <Button variant='secondary' className='m-2' type="button" onClick={() => dispatch(addToCart(merce))}>
-                                < BsCart4 size={20} />
+                            <Button variant='' className='m-1 addmerce' type="button" onClick={() => dispatch(addToCart(merce))}>
+                                < BsCart4 size={15} />
                             </Button>
                         </Card.Body>
                     </Card>

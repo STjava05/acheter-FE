@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Form, Button, Card, Col } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProducteur, updateProducteur, deleteProducteur, fetchProducteurPage } from '../reducers/apiSlice';
+import { BsTrash3Fill,BsFillPencilFill } from 'react-icons/bs';
+import Search from '../components/Search';
 
 const Producteur = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -65,7 +67,7 @@ const Producteur = () => {
 
             </Row>
             <Row className='mt-4 d-flex justify-content-center'>
-
+                 <Search/>
                 {producteurData && producteurData.map((producteur) => (
 
                     <Card key={producteur.id} className='mb-3 border-dark shadow m-1 p-1' style={{ width: '18rem' }}>
@@ -76,21 +78,13 @@ const Producteur = () => {
                             <Card.Text>Paese: {producteur.paese}</Card.Text>
                             <Card.Text>Numeri Di Ettari: {producteur.numeriDiEttari}</Card.Text>
                             <Card.Text>Orticoltura Specializato: {producteur.orticolturaSpecializato}</Card.Text>
-                            <Button
-                                variant='primary'
-                                onClick={() => {
-                                    handleUpdateProducteur(producteur.id);
-                                }}
-                            >
-                                Update
+                            
+                            <Button variant='' className='m-1 updprod' type="button" onClick={() => handleUpdateProducteur(producteur.id)}>
+                                < BsFillPencilFill size={15} />
                             </Button>
-                            <Button
-                                variant='danger'
-                                onClick={() => {
-                                    handleDeleteProducteur(producteur.id);
-                                }}
-                            >
-                                Delete
+                           
+                            <Button variant='' className='m-1 dltprod' type="button" onClick={() => handleDeleteProducteur(producteur.id)}>
+                                < BsTrash3Fill size={15} />
                             </Button>
                         </Card.Body>
                     </Card>
