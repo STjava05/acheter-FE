@@ -23,7 +23,7 @@ const initialState = {
 export const fetchAcquirenti = createAsyncThunk(
     'api/fetchApi',
     async () => {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/acquirenti`, {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/acquirenti`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
