@@ -72,7 +72,7 @@ const Acquirenti = () => {
                     invia
 
                 </Button>
-                <p>Have an account already? <Link to="/login">Login</Link></p>
+                <p>Have an account already? <Link to="/">Login</Link></p>
 
                 {acquirentiList.map((acquirenti) => (
                     <div key={acquirenti.id}>
