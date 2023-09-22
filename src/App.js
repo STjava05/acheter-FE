@@ -25,7 +25,9 @@ function App() {
   return (
     <Router>
      <NavBar />
+     
       <Container>
+      
         <Routes>
           <Route path="/" exact element={<Login />} />
           <Route path="/success" element={<Success />} />

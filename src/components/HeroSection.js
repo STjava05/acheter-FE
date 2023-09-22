@@ -17,7 +17,7 @@ function HeroSection() {
                         buttonStyle='btn--outline'
                         buttonSize='btn--large'
                     >
-                        Sign-UP
+                        GET STARTED
                     </Button>
                 </Link>
 

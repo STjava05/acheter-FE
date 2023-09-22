@@ -7,9 +7,9 @@ import { Container, Row,Col,Table } from 'react-bootstrap';
 
 const Ordine = () => {
     const [formData, setFormData] = useState({
-        codiceOrdine: '',
-        codiceAcquirenti: '',
-        codiceProdotto: '',
+        numberOrdine: '',
+        producteur: '',
+        prodotto: '',
         quantita: 0,
         prezzoTotale: 0,
         dataOrdine: '',
@@ -27,9 +27,9 @@ const Ordine = () => {
         dispatch(createOrdine(formData));
         // Pulisci il form dopo la creazione
         setFormData({
-            codiceOrdine: '',
-            codiceAcquirenti: '',
-            codiceProdotto: '',
+            numberOrdine: '',
+            producteur: '',
+            prodotto: '',
             quantita: 0,
             prezzoTotale: 0,
             dataOrdine: '',
@@ -54,12 +54,12 @@ const Ordine = () => {
             <Row className='mt-4'>
             <Col md={6}>
             <form>
-                <label htmlFor="codiceOrdine">Codice Ordine</label>
-                <input type="text" id="codiceOrdine" value={formData.codiceOrdine} onChange={(e) => setFormData({ ...formData, codiceOrdine: e.target.value })} /><br/>
-                <label htmlFor="codiceAcquirenti">Codice Acquirenti</label>
-                <input type="text" id="codiceAcquirenti" value={formData.codiceAcquirenti} onChange={(e) => setFormData({ ...formData, codiceAcquirenti: e.target.value })} /><br/> 
-                <label htmlFor="codiceProdotto">Codice Prodotto</label>
-                <input type="text" id="codiceProdotto" value={formData.codiceProdotto} onChange={(e) => setFormData({ ...formData, codiceProdotto: e.target.value })} /><br/>
+                <label htmlFor="numberOrdine">numero Ordine</label>
+                <input type="text" id="numberOrdine" value={formData.numberOrdine} onChange={(e) => setFormData({ ...formData, numberOrdine: e.target.value })} /><br/>
+                <label htmlFor="producteur">Producteur</label>
+                <input type="text" id="producteur" value={formData.producteur} onChange={(e) => setFormData({ ...formData, producteur: e.target.value })} /><br/> 
+                <label htmlFor="prodotto"> Prodotto</label>
+                <input type="text" id="prodotto" value={formData.prodotto} onChange={(e) => setFormData({ ...formData, prodotto: e.target.value })} /><br/>
                 <label htmlFor="quantita">Quantita</label>
                 <input type="text" id="quantita" value={formData.quantita} onChange={(e) => setFormData({ ...formData, quantita: e.target.value })} /><br/>
                 <label htmlFor="prezzoTotale">Prezzo Totale</label>
@@ -83,9 +83,9 @@ const Ordine = () => {
                 <tbody>
                     {ordineData&&ordineData.map((ordine) => (
                         <tr key={ordine.id}>
-                            <td>{ordine.codiceOrdine}</td>
-                            <td>{ordine.codiceAcquirenti}</td>
-                            <td>{ordine.codiceProdotto}</td>
+                            <td>{ordine.numberOrdine}</td>
+                            <td>{ordine.producteur}</td>
+                            <td>{ordine.prodotto}</td>
                             <td>{ordine.quantita}</td>
                             <td>{ordine.prezzoTotale}</td>
                             <td>{ordine.dataOrdine}</td>

@@ -11,10 +11,11 @@ const initialState = {
     acquirenti: [],
     merce: [],
     totalPages: 0,
+    totalProdPages: 0,
     ordine: [],
     producteur: [],
-    cart: [], 
-    search: '',  
+    cart: [],
+    search: '',
     loading: false,
     error: false,
 
@@ -82,38 +83,29 @@ export const deleteAcquirenti = createAsyncThunk(
 
 export const fetchMerce = createAsyncThunk(
     'api/fetchApi',
-    async (merce) => {
-        const response = await fetch( `${process.env.REACT_APP_SERVER_BASE_URL}/merce`, { // `http://localhost:5052/merce
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(merce),
-        });
-        const data = await response.json();
-        return data;
+    async (page) => {
+        try {
+
+            const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce?page=${page}`, { // `http://localhost:5052/merce
+
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            });
+
+            const data = await response.json();
+
+            return data;
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 );
 
-export const fetchMercePage = createAsyncThunk(
-    'api/fetchApi',
-    async (page) => {
-        try {
-        const response = await fetch( `${process.env.REACT_APP_SERVER_BASE_URL}/merce?page=${page }`, { 
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // body: JSON.stringify(page),
-        });
-        console.log("sono nel try");
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
-    }
-);
+
 
 export const createMerce = createAsyncThunk(
     'api/createMerce',
@@ -126,7 +118,7 @@ export const createMerce = createAsyncThunk(
                 },
                 body: JSON.stringify(merce),
             });
-            
+
             if (!response.ok) {
                 throw new Error('Errore nella richiesta API');
             }
@@ -142,8 +134,8 @@ export const createMerce = createAsyncThunk(
 
 export const updateMerce = createAsyncThunk(
     'api/updateMerce',
-    async (merce) => {
-        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/edit/${merce.id}`, { // `http://localhost:5052/merce/edit/${merce.id
+    async (merce, id) => {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/edit/${id}`, { // `http://localhost:5052/merce/edit/${id
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -157,21 +149,16 @@ export const updateMerce = createAsyncThunk(
 
 export const deleteMerce = createAsyncThunk(
     'api/deleteMerce',
-    async (id) => {
-        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/deleteOne/${id}`, { // `http://localhost:5052/merce/deleteOne/${id
+    async (merceId) => {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/merce/deleteOne/${merceId}`, { // `http://localhost:5052/merce/deleteOne/${id
             method: 'DELETE',
-           
+
         });
         const data = await response.json();
         return data;
 
-        }
+    }
 );
-
-
-
-    
-
 
 export const fetchOrdine = createAsyncThunk(
     'api/fetchApi',
@@ -233,25 +220,12 @@ export const deleteOrdine = createAsyncThunk(
     }
 );
 
-export const fetchProducteur = createAsyncThunk(
-    'api/fetchProducteur',
-    async (producteur) => {
-        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/producteur`, { // `http://localhost:5052/producteur
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(producteur),
-        });
-        const data = await response.json();
-        return data;
-    }
-);
+// 
 
 export const fetchProducteurPage = createAsyncThunk(
     'api/fetchProducteur',
     async (page) => {
-        const response = await fetch( `${process.env.REACT_APP_SERVER_BASE_URL}/producteur?page=${page } `, {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/producteur?page=${page} `, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -262,7 +236,7 @@ export const fetchProducteurPage = createAsyncThunk(
         return data;
     }
 );
-    
+
 
 export const createProducteur = createAsyncThunk(
     'api/createProducteur',
@@ -293,7 +267,7 @@ export const updateProducteur = createAsyncThunk(
         return data;
     }
 );
-   
+
 
 export const deleteProducteur = createAsyncThunk(
     'api/deleteProducteur',
@@ -309,18 +283,18 @@ export const deleteProducteur = createAsyncThunk(
         return data;
     }
 );
-  
+
 
 
 export const PostLogin = createAsyncThunk(
-    
+
     'api/PostLogin',
     async (login) => {
         const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/login`, { // `http://localhost:5052/login
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization:  `Bearer ${localStorage.getItem('token')}`,
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify(login),
         });
@@ -364,16 +338,15 @@ const apiSlice = createSlice({
                 state.cart.splice(indexToRemove, 1); // Rimuovi l'articolo dall'array
             }
         },
-        
-
-        
 
         setSearch: (state, action) => {
             state.search = action.payload;
+            console.log(state.Data, state.apiArray)
             state.apiArray = state.Data.filter((item) => {
                 return item.nome.toLowerCase().includes(action.payload.toLowerCase())
-            })
+            });
 
+            console.log(state.apiArray);
 
         },
     },
@@ -381,19 +354,23 @@ const apiSlice = createSlice({
     extraReducers: (builder) => {
         // fetchMerce
         builder.addCase(fetchMerce.pending, (state) => {
+
             state.loading = true;
             state.requestStatus = 'pending';
         }
         );
         builder.addCase(fetchMerce.fulfilled, (state, action) => {
-            state.loading = false;
-            state.Data = action.payload.merce;
-          
+
             state.apiArray = action.payload.merce;
+            state.Data = action.payload.merce;
+            console.log(state.Data, state.apiArray)
+            state.totalPages = action.payload.totalPages;
             state.requestStatus = 'fulfilled';
+            state.loading = false;
         }
         );
         builder.addCase(fetchMerce.rejected, (state) => {
+            console.log("ciao")
             state.loading = false;
             state.error = true;
             state.requestStatus = 'rejected';
@@ -409,7 +386,7 @@ const apiSlice = createSlice({
             state.Data = action.payload.merce;
             state.apiArray = action.payload.merce;
             state.loading = false;
-            
+
         }
         );
         builder.addCase(createMerce.rejected, (state) => {
@@ -420,14 +397,21 @@ const apiSlice = createSlice({
         // updateMerce
         builder.addCase(updateMerce.pending, (state) => {
             state.loading = true;
-            
+
         }
         );
         builder.addCase(updateMerce.fulfilled, (state, action) => {
             state.loading = false;
-            state.Data = action.payload.merce;
-            state.apiArray = action.payload.merce;
-            
+            const updatedMerce = action.payload.merce;
+
+            if (updatedMerce && updatedMerce.id) {
+                const index = state.apiArray.findIndex(item => item.id === updatedMerce.id);
+
+                if (index !== -1) {
+                    // Sostituisci l'articolo esistente con il nuovo oggetto aggiornato
+                    state.apiArray[index] = updatedMerce;
+                }
+            }
         }
         );
         builder.addCase(updateMerce.rejected, (state) => {
@@ -438,14 +422,14 @@ const apiSlice = createSlice({
         // deleteMerce
         builder.addCase(deleteMerce.pending, (state) => {
             state.loading = true;
-            
+
         }
         );
         builder.addCase(deleteMerce.fulfilled, (state, action) => {
             state.loading = false;
             state.Data = action.payload.merce;
             state.apiArray = state.apiArray.filter((item) => item.id !== action.payload.id);
-        
+
         }
         );
         builder.addCase(deleteMerce.rejected, (state) => {
@@ -453,6 +437,8 @@ const apiSlice = createSlice({
             state.error = true;
         }
         );
+
+
         // postLogin
         builder.addCase(PostLogin.pending, (state) => {
             state.loading = true;
@@ -473,33 +459,37 @@ const apiSlice = createSlice({
         }
         );
 
-        // fetchProducteur
-        builder.addCase(fetchProducteur.pending, (state) => {
+
+
+
+
+        builder.addCase(fetchProducteurPage.pending, (state) => {
             state.loading = true;
             state.requestStatus = 'pending';
         }
         );
-        builder.addCase(fetchProducteur.fulfilled, (state, action) => {
+        builder.addCase(fetchProducteurPage.fulfilled, (state, action) => {
             state.loading = false;
-            state.Data = action.payload.producteur;
-            state.apiArray = action.payload.producteur;
+
+            state.producteur = action.payload.producteur;
+            state.totalProdPages = action.payload.totalProdPages;
             state.requestStatus = 'fulfilled';
         }
         );
-        builder.addCase(fetchProducteur.rejected, (state) => {
+        builder.addCase(fetchProducteurPage.rejected, (state) => {
             state.loading = false;
             state.error = true;
             state.requestStatus = 'rejected';
         }
         );
-       
-
-
 
     }
+
+
+
 });
 
-export const { setAcquirenti, setMerce, setOrdine, setProducteur, setSearch, setMenu,addToCart,removeToCart, } = apiSlice.actions;
+export const { setAcquirenti, setMerce, setOrdine, setProducteur, setSearch, setMenu, addToCart, removeToCart, } = apiSlice.actions;
 
 export default apiSlice.reducer;
 

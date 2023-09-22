@@ -10,6 +10,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,8 +33,7 @@ function Login() {
         console.error('La risposta non contiene un token valido.');
       }
      
-        // localStorage.setItem('userLogin', JSON.stringify(response.payload.token));
-        // navigate('/home');
+        
      
     })
     .catch((error) => {
@@ -56,6 +56,7 @@ const handleGoogleLogin = (e) => {
 
   return (
     <Container>
+      <div className='loginBackground'>
       <h2>Login</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formBasicEmail">
@@ -93,6 +94,7 @@ const handleGoogleLogin = (e) => {
       <FcGoogle size={20} />
       Login with Google
         </Button>
+      </div>
     </Container>
   );
 }

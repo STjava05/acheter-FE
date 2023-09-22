@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { createMerce, updateMerce, deleteMerce, addToCart, fetchMercePage } from '../reducers/apiSlice';
+import { createMerce, updateMerce, deleteMerce, addToCart, fetchMerce} from '../reducers/apiSlice';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { BsFillPencilFill, BsTrash3Fill, BsCart4, BsFillSendFill } from 'react-icons/bs';
 
@@ -27,9 +27,9 @@ const Merce = () => {
 
     useEffect(() => {
 
-        dispatch(fetchMercePage(currentPage));
+        dispatch(fetchMerce(currentPage));
 
-    }, [dispatch, currentPage]);
+    }, [dispatch , currentPage]);
 
     const handleNextPage = () => {
 
@@ -76,11 +76,11 @@ const Merce = () => {
 
     };
 
-    const handleDeleteMerce = (id) => {
-        if(id){
-            console.log(id);
+    const handleDeleteMerce = (merceId) => {
+        if(merceId){
+            console.log(merceId);
         }
-        dispatch(deleteMerce(id));
+        dispatch(deleteMerce(merceId));
     };
 
     return (
@@ -92,21 +92,21 @@ const Merce = () => {
             </Row>
 
             <Row className='mt-4 d-flex justify-content-center align-items-center'>
+               
                 {merceData && merceData.map((merce) => (
-
-                    <Card className='border-dark shadow m-1 p-1 select' style={{ width: '18rem' }} key={merce._id}>
+                 <Card className='border-dark shadow m-1 p-1 select' style={{ width: '18rem' }} key={merce._id}>
                         <Card.Img variant="top" src={merce.url} style={{ height: '150px', objectFit: 'cover' }} />
                         <Card.Body>
                             <Card.Title>{merce.nome}</Card.Title>
                             <Card.Text>{merce.descrizione}</Card.Text>
                             <Card.Text>{merce.categoria}</Card.Text>
                             <Card.Text>{merce.provenienza}</Card.Text>
-                            <Card.Text>Prezzo: {merce.prezzo}€</Card.Text>
-                            <Card.Text>Quantità Disponibile: {merce.quantitaDisponibile}</Card.Text>
+                            <Card.Text>Prezzo: {merce.prezzo}€/kg</Card.Text>
+                            <Card.Text>Quantità Disponibile: {merce.quantitaDisponibile} kg</Card.Text>
                             <Button variant='' className='updmerce' type="button" onClick={() => handleUpdateMerce(merce)}>
                                 < BsFillPencilFill size={15} />
                             </Button>
-                            <Button variant='' className='m-1 dltmerce' type="button" onClick={() => handleDeleteMerce(merce.id)}>
+                            <Button variant='' className='m-1 dltmerce' type="button" onClick={() => handleDeleteMerce(merce._id)}>
                                 < BsTrash3Fill size={15} />
                             </Button>
                             <Button variant='' className='m-1 addmerce' type="button" onClick={() => dispatch(addToCart(merce))}>

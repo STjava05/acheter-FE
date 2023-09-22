@@ -16,15 +16,38 @@ const Producteur = () => {
         orticolturaSpecializato: '',
     });
 
-    const producteurData = useSelector((state) => state.api.Data);
-    const totalPages = useSelector((state) => state.api.totalPages);
+    const producteurData = useSelector((state) => state.api.producteur);
+    const totalProdPages = useSelector((state) => state.api.totalProdPages);
 
+
+    const pages = [];
+    for (let i = 1; i <= totalProdPages; i++) {
+        pages.push(
+            <Button
+                key={i}
+                onClick={() => setCurrentPage(i)}
+                variant={currentPage === i ? 'primary' : 'secondary'}
+            >
+                {i}
+            </Button>
+        );
+    }
+    
+    
     const dispatch = useDispatch();
-
     useEffect(() => {
-        dispatch(fetchProducteurPage(currentPage));
+        dispatch(fetchProducteurPage(currentPage))
+            .unwrap()
+            .then((data) => {
+               
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, [dispatch, currentPage]);
 
+   
 
     const handleNextPage = () => {
 
@@ -159,9 +182,9 @@ const Producteur = () => {
                         Previous
                     </Button>
                     <span className='mx-2'>
-                        Page {currentPage} of {totalPages}
+                        Page {currentPage} of {totalProdPages}
                     </span>
-                    <Button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    <Button onClick={handleNextPage} disabled={currentPage === totalProdPages}>
                         Next
                     </Button>
                 </Col>
