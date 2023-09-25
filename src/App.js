@@ -12,12 +12,12 @@ import Contact from './components/Contact';
 import Login from './components/login';
 import ShoppingCart from './components/ShoppingCart';
 import Producteur from './components/producteur';
-
 import ProtectedRoutes from './middleware/ProtectedRoutes';
 // import Layout from './components/layout';
 import NavBar from './components/navBar';
 import Footer from './components/footer';
 import Success from './components/Success';
+import StripeContainer from './components/StripeContainer';
 
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
 
           <Route element={<ProtectedRoutes />}>
           {/* <Route element={<Layout />}> */}
-            <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home />} />
             <Route path='/menu' element={<Menu />} />
             <Route path='/merce' element={<Merce />} />
            
@@ -50,6 +50,7 @@ function App() {
       </Container>
       
        <Footer />
+       {/* <StripeContainer /> */}
     </Router>
 
   );

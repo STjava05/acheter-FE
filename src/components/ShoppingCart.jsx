@@ -33,7 +33,7 @@ function ShoppingCart() {
                         <Card.Text>{merce.categoria}</Card.Text>
                         <Card.Text>{merce.provenienza}</Card.Text>
                         <Card.Text>Prezzo: {merce.prezzo}€</Card.Text>
-                        <Card.Text>Quantità Disponibile: {merce.quantitaDisponibile}</Card.Text>
+                        <Card.Text>Quantità Disponibile: {merce.quantitaDisponibile} kg</Card.Text>
 
                         <Button className='m-2' type="button" onClick={() => dispatch(removeToCart(merce.id))}>
                             < BsTrash3Fill size={20} />

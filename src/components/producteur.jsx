@@ -93,7 +93,7 @@ const Producteur = () => {
                  
                 {producteurData && producteurData.map((producteur) => (
 
-                    <Card key={producteur.id} className='mb-3 border-dark shadow m-1 p-1' style={{ width: '18rem' }}>
+                    <Card key={producteur.id} className='mb-3 border-dark shadow m-1 p-1 select' style={{ width: '18rem' }}>
                         <Card.Img variant='top' src={producteur.avatarUrl} alt={producteur.nome} style={{ width: '100%', objectFit: 'cover' }} />
                         <Card.Body>
                             <Card.Title>{producteur.nome}</Card.Title>
